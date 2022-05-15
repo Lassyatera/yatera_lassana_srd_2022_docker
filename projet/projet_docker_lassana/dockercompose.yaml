@@ -1,0 +1,30 @@
+# docker compose version 3.8
+
+version: "3.8"
+
+services:
+  mongodb:
+    image: "mongo"
+# port pour le mongodb
+    ports:
+      - "49090:49090"
+    volumes:
+      - data:/data/db
+  backend:
+    build: ./backend
+    ports:
+#port pour le backend
+      - "8080:8080"
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+#port pour le frontend
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+volumes:
+  data:
